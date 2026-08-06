@@ -6,7 +6,7 @@ Date: 2026‑06‑19
 
 
 1. Copyright
-   All rights to this work and its contents belong to Sonima Production Team (hereinafter referred to as «the Author»).
+   All rights to this work and its contents belong to Unreal Team (hereinafter referred to as «the Author»).
 
 
 2. Distribution Terms
@@ -36,7 +36,7 @@ Unreal Team License
 
 
 1. Авторские права
-   Все права на данное произведение и его содержимое принадлежат Sonima Production Team (далее — Автор).
+   Все права на данное произведение и его содержимое принадлежат Unreal Team (далее — Автор).
 
 
 2. Условия распространения
