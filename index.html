@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unreal Team — Моды для Minecraft</title>
     <style>
-      /* Подключение шрифта Monocraft из локального репозитория */
-@font-face {
-    font-family: 'Monocraft';
-    src: url('fonts/Monocraft.ttc') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Monocraft';
-    src: url('fonts/Monocraft.ttc') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
+        /* Подключение шрифта Monocraft */
+        @font-face {
+            font-family: 'Monocraft';
+            src: url('https://github.com/ker1k-kiREAL/Unreal-Team/raw/refs/heads/website/fonts/Monocraft.ttc') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Monocraft';
+            src: url('https://github.com/ker1k-kiREAL/Unreal-Team/raw/refs/heads/website/fonts/Monocraft.ttc') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -53,6 +53,79 @@
 
         a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
         a:hover { color: var(--accent-hover); }
+
+        /* ===== Красивый Прелоадер ===== */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 30px;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+            width: 140px;
+            height: 140px;
+        }
+
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.1s linear;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 8px rgba(102, 204, 255, 0.6));
+        }
+
+        .loader-percentage {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Monocraft', monospace;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(102, 204, 255, 0.4);
+        }
+
+        .preloader-title {
+            font-family: 'Monocraft', monospace;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            animation: pulseTitle 2s infinite;
+        }
+
+        .preloader-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-muted);
+            transition: opacity 0.4s ease;
+            text-align: center;
+            padding: 0 20px;
+            min-height: 1.5em;
+        }
+
+        @keyframes pulseTitle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
@@ -396,6 +469,18 @@
 </head>
 <body>
 
+    <!-- Прелоадер с круговым прогрессом -->
+    <div id="preloader">
+        <div class="loader-wrapper">
+            <svg class="progress-ring" width="140" height="140">
+                <circle class="progress-ring__circle" stroke="var(--accent)" stroke-width="6" fill="transparent" r="60" cx="70" cy="70" />
+            </svg>
+            <div class="loader-percentage" id="loader-percentage">0%</div>
+        </div>
+        <div class="preloader-title" id="preloader-title">Загрузка...</div>
+        <div class="preloader-subtitle" id="preloader-message">...</div>
+    </div>
+
     <div class="lang-modal" id="langModal" role="dialog" aria-modal="true" aria-labelledby="langModalTitle">
         <div class="lang-modal-content">
             <div class="lang-modal-icon" id="langModalIcon">🌐</div>
@@ -660,7 +745,16 @@
                 'where.p2': 'Чтобы найти все наши моды, используйте прямые ссылки на профиль и организацию. На Modrinth — организация <strong>Unreal Team</strong>, на CurseForge — автор <strong>sonima</strong>.',
                 'footer.copyright': '© 2026 Unreal Team. Minecraft — торговая марка Mojang Studios. Мы не связаны с Mojang.',
                 'footer.made': 'Сделано с ❤️ для сообщества',
-                'footer.author': "Сайт сделан <strong>ker1k'ом</strong>"
+                'footer.author': "Сайт сделан <strong>ker1k'ом</strong>",
+                'loading.title': 'Загрузка...',
+                'loading.messages': [
+                    "Можете сходить налить себе чай",
+                    "Расслабьтесь",
+                    "Позвоните родным",
+                    "Сделайте пару упражнений",
+                    "Проверьте, не остыл ли кофе",
+                    "Посмотрите в окно"
+                ]
             },
             en: {
                 'page.title': 'Unreal Team — Minecraft Mods',
@@ -700,7 +794,16 @@
                 'where.p2': 'To find all our mods, use the direct profile and organization links. On Modrinth — the <strong>Unreal Team</strong> organization, on CurseForge — the author <strong>sonima</strong>.',
                 'footer.copyright': '© 2026 Unreal Team. Minecraft is a trademark of Mojang Studios. We are not affiliated with Mojang.',
                 'footer.made': 'Made with ❤️ for the community',
-                'footer.author': 'Site made by <strong>ker1k</strong>'
+                'footer.author': 'Site made by <strong>ker1k</strong>',
+                'loading.title': 'Loading...',
+                'loading.messages': [
+                    "You can go make yourself some tea",
+                    "Just relax",
+                    "Call your family",
+                    "Do a few exercises",
+                    "Check if your coffee is cold",
+                    "Look out the window"
+                ]
             },
             uk: {
                 'page.title': 'Unreal Team — Моди для Minecraft',
@@ -740,7 +843,16 @@
                 'where.p2': 'Щоб знайти всі наші моди, використовуйте прямі посилання на профіль і організацію. На Modrinth — організація <strong>Unreal Team</strong>, на CurseForge — автор <strong>sonima</strong>.',
                 'footer.copyright': "© 2026 Unreal Team. Minecraft — торгова марка Mojang Studios. Ми не пов'язані з Mojang.",
                 'footer.made': 'Зроблено з ❤️ для спільноти',
-                'footer.author': "Сайт зроблено <strong>ker1k'ом</strong>"
+                'footer.author': "Сайт зроблено <strong>ker1k'ом</strong>",
+                'loading.title': 'Завантаження...',
+                'loading.messages': [
+                    "Можете піти налити собі чаю",
+                    "Розслабтеся",
+                    "Зателефонуйте рідним",
+                    "Зробіть кілька вправ",
+                    "Перевірте, чи не охолола кава",
+                    "Подивіться у вікно"
+                ]
             }
         };
 
@@ -977,6 +1089,92 @@
                 requestAnimationFrame(tick);
             }
             requestAnimationFrame(tick);
+        })();
+
+        /* Логика красивого прелоадера с процентами и поддержкой языков */
+        (function() {
+            const activeLang = document.documentElement.lang || 'en';
+            const messages = i18n[activeLang]['loading.messages'];
+            const titleText = i18n[activeLang]['loading.title'];
+            
+            // Устанавливаем заголовок и первую фразу
+            document.getElementById('preloader-title').textContent = titleText;
+            const msgElement = document.getElementById('preloader-message');
+            msgElement.textContent = messages[0];
+
+            let msgIndex = 0;
+            const preloader = document.getElementById('preloader');
+            const percentElement = document.getElementById('loader-percentage');
+            const circle = document.querySelector('.progress-ring__circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = circumference;
+
+            let progress = 0;
+            let targetProgress = 0;
+            let isLoaded = false;
+
+            const msgInterval = setInterval(() => {
+                msgElement.style.opacity = 0;
+                setTimeout(() => {
+                    msgIndex = (msgIndex + 1) % messages.length;
+                    msgElement.textContent = messages[msgIndex];
+                    msgElement.style.opacity = 1;
+                }, 400);
+            }, 3000);
+
+            function setProgress(percent) {
+                const offset = circumference - (percent / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+                percentElement.textContent = Math.floor(percent) + '%';
+            }
+
+            function simulateLoading() {
+                if (isLoaded) return;
+                // Симулируем загрузку, замедляясь ближе к 90%
+                if (targetProgress < 90) {
+                    targetProgress += Math.random() * 1.5;
+                    setProgress(targetProgress);
+                    setTimeout(simulateLoading, Math.random() * 100 + 50);
+                } else if (targetProgress < 99) {
+                    targetProgress += 0.2;
+                    setProgress(targetProgress);
+                    setTimeout(simulateLoading, 200);
+                }
+            }
+
+            simulateLoading();
+
+            function hidePreloader() {
+                isLoaded = true;
+                clearInterval(msgInterval);
+                
+                // Плавно добиваем до 100%
+                let finishInterval = setInterval(() => {
+                    progress += 2;
+                    if (progress >= 100) {
+                        progress = 100;
+                        setProgress(100);
+                        clearInterval(finishInterval);
+                        
+                        setTimeout(() => {
+                            preloader.classList.add('hidden');
+                            setTimeout(() => { preloader.style.display = 'none'; }, 600);
+                        }, 400);
+                    } else {
+                        setProgress(progress);
+                    }
+                }, 20);
+            }
+
+            window.addEventListener('load', hidePreloader);
+            
+            // Страховка: если через 15 секунд сайт не загрузился, всё равно убираем экран
+            setTimeout(() => {
+                if (!isLoaded) hidePreloader();
+            }, 15000);
         })();
     </script>
 </body>
