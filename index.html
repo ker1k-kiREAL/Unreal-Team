@@ -54,79 +54,6 @@
         a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
         a:hover { color: var(--accent-hover); }
 
-        /* ===== Красивый Прелоадер ===== */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader-wrapper {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin-bottom: 30px;
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-            width: 140px;
-            height: 140px;
-        }
-
-        .progress-ring__circle {
-            transition: stroke-dashoffset 0.1s linear;
-            stroke-linecap: round;
-            filter: drop-shadow(0 0 8px rgba(102, 204, 255, 0.6));
-        }
-
-        .loader-percentage {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Monocraft', monospace;
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: var(--accent);
-            text-shadow: 0 0 10px rgba(102, 204, 255, 0.4);
-        }
-
-        .preloader-title {
-            font-family: 'Monocraft', monospace;
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            animation: pulseTitle 2s infinite;
-        }
-
-        .preloader-subtitle {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            color: var(--text-muted);
-            transition: opacity 0.4s ease;
-            text-align: center;
-            padding: 0 20px;
-            min-height: 1.5em;
-        }
-
-        @keyframes pulseTitle {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
         header {
@@ -176,19 +103,30 @@
 
         .hero {
             position: relative; padding: 100px 0 80px; text-align: center; overflow: hidden;
+            background-color: var(--bg);
         }
         .hero::before {
             content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
             width: 800px; height: 800px;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            pointer-events: none; filter: blur(80px);
+            pointer-events: none; filter: blur(80px); z-index: 1;
         }
-        .hero .container { position: relative; z-index: 2; }
+        
+        /* Новый фоновый GIF */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://media1.tenor.com/m/O0TyL2rC55AAAAAd/minecraft.gif');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+        }
 
-        #lifeCanvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1; opacity: 0.6;
-        }
+        .hero .container { position: relative; z-index: 2; }
 
         .badge {
             display: inline-block; background: rgba(102, 204, 255, 0.08); color: var(--accent);
@@ -469,18 +407,6 @@
 </head>
 <body>
 
-    <!-- Прелоадер с круговым прогрессом -->
-    <div id="preloader">
-        <div class="loader-wrapper">
-            <svg class="progress-ring" width="140" height="140">
-                <circle class="progress-ring__circle" stroke="var(--accent)" stroke-width="6" fill="transparent" r="60" cx="70" cy="70" />
-            </svg>
-            <div class="loader-percentage" id="loader-percentage">0%</div>
-        </div>
-        <div class="preloader-title" id="preloader-title">Загрузка...</div>
-        <div class="preloader-subtitle" id="preloader-message">...</div>
-    </div>
-
     <div class="lang-modal" id="langModal" role="dialog" aria-modal="true" aria-labelledby="langModalTitle">
         <div class="lang-modal-content">
             <div class="lang-modal-icon" id="langModalIcon">🌐</div>
@@ -512,7 +438,7 @@
     </header>
 
     <section class="hero">
-        <canvas id="lifeCanvas"></canvas>
+        <div class="hero-bg"></div>
         <div class="container">
             <span class="badge" data-i18n="hero.badge">Minecraft Java Edition · NeoForge / Forge</span>
             <h1 data-i18n-html="hero.title">Технические моды от <span>Unreal Team</span></h1>
@@ -745,16 +671,7 @@
                 'where.p2': 'Чтобы найти все наши моды, используйте прямые ссылки на профиль и организацию. На Modrinth — организация <strong>Unreal Team</strong>, на CurseForge — автор <strong>sonima</strong>.',
                 'footer.copyright': '© 2026 Unreal Team. Minecraft — торговая марка Mojang Studios. Мы не связаны с Mojang.',
                 'footer.made': 'Сделано с ❤️ для сообщества',
-                'footer.author': "Сайт сделан <strong>ker1k'ом</strong>",
-                'loading.title': 'Загрузка...',
-                'loading.messages': [
-                    "Можете сходить налить себе чай",
-                    "Расслабьтесь",
-                    "Позвоните родным",
-                    "Сделайте пару упражнений",
-                    "Проверьте, не остыл ли кофе",
-                    "Посмотрите в окно"
-                ]
+                'footer.author': "Сайт сделан <strong>ker1k'ом</strong>"
             },
             en: {
                 'page.title': 'Unreal Team — Minecraft Mods',
@@ -794,16 +711,7 @@
                 'where.p2': 'To find all our mods, use the direct profile and organization links. On Modrinth — the <strong>Unreal Team</strong> organization, on CurseForge — the author <strong>sonima</strong>.',
                 'footer.copyright': '© 2026 Unreal Team. Minecraft is a trademark of Mojang Studios. We are not affiliated with Mojang.',
                 'footer.made': 'Made with ❤️ for the community',
-                'footer.author': 'Site made by <strong>ker1k</strong>',
-                'loading.title': 'Loading...',
-                'loading.messages': [
-                    "You can go make yourself some tea",
-                    "Just relax",
-                    "Call your family",
-                    "Do a few exercises",
-                    "Check if your coffee is cold",
-                    "Look out the window"
-                ]
+                'footer.author': 'Site made by <strong>ker1k</strong>'
             },
             uk: {
                 'page.title': 'Unreal Team — Моди для Minecraft',
@@ -843,16 +751,7 @@
                 'where.p2': 'Щоб знайти всі наші моди, використовуйте прямі посилання на профіль і організацію. На Modrinth — організація <strong>Unreal Team</strong>, на CurseForge — автор <strong>sonima</strong>.',
                 'footer.copyright': "© 2026 Unreal Team. Minecraft — торгова марка Mojang Studios. Ми не пов'язані з Mojang.",
                 'footer.made': 'Зроблено з ❤️ для спільноти',
-                'footer.author': "Сайт зроблено <strong>ker1k'ом</strong>",
-                'loading.title': 'Завантаження...',
-                'loading.messages': [
-                    "Можете піти налити собі чаю",
-                    "Розслабтеся",
-                    "Зателефонуйте рідним",
-                    "Зробіть кілька вправ",
-                    "Перевірте, чи не охолола кава",
-                    "Подивіться у вікно"
-                ]
+                'footer.author': "Сайт зроблено <strong>ker1k'ом</strong>"
             }
         };
 
@@ -963,96 +862,6 @@
         });
         initLanguage();
 
-        /* Игра «Жизнь» в hero */
-        (function() {
-            const hero = document.querySelector('.hero');
-            const canvas = document.getElementById('lifeCanvas');
-            const ctx = canvas.getContext('2d');
-
-            let cols, rows;
-            const cellSize = 12;
-            const TICK_MS = 120;
-            let grid, nextGrid;
-            let animationId = null;
-            let lastTick = 0;
-            let mouseX = -1, mouseY = -1;
-
-            function resizeCanvas() {
-                if (!hero || !canvas) return;
-                const rect = hero.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-                cols = Math.floor(canvas.width / cellSize);
-                rows = Math.floor(canvas.height / cellSize);
-                grid = createGrid(cols, rows);
-                nextGrid = createGrid(cols, rows);
-            }
-            function createGrid(c, r) { return Array.from({ length: r }, () => new Uint8Array(c)); }
-            function randomizeGrid() {
-                for (let y = 0; y < rows; y++)
-                    for (let x = 0; x < cols; x++)
-                        grid[y][x] = Math.random() > 0.85 ? 1 : 0;
-            }
-            function isGridEmpty() {
-                for (let y = 0; y < rows; y++)
-                    for (let x = 0; x < cols; x++)
-                        if (grid[y][x]) return false;
-                return true;
-            }
-            function updateGrid() {
-                for (let y = 0; y < rows; y++) {
-                    for (let x = 0; x < cols; x++) {
-                        let n = 0;
-                        for (let dy = -1; dy <= 1; dy++)
-                            for (let dx = -1; dx <= 1; dx++) {
-                                if (!dx && !dy) continue;
-                                n += grid[(y + dy + rows) % rows][(x + dx + cols) % cols];
-                            }
-                        const alive = grid[y][x] === 1;
-                        nextGrid[y][x] = (alive && (n === 2 || n === 3)) || (!alive && n === 3) ? 1 : 0;
-                    }
-                }
-                [grid, nextGrid] = [nextGrid, grid];
-                if (mouseX >= 0 && mouseY >= 0) {
-                    const cx = Math.floor(mouseX / cellSize);
-                    const cy = Math.floor(mouseY / cellSize);
-                    for (let dy = -2; dy <= 2; dy++)
-                        for (let dx = -2; dx <= 2; dx++) {
-                            const nx = (cx + dx + cols) % cols;
-                            const ny = (cy + dy + rows) % rows;
-                            if (Math.random() > 0.75) grid[ny][nx] = 1;
-                        }
-                }
-                if (isGridEmpty()) randomizeGrid();
-            }
-            function drawGrid() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(102, 204, 255, 0.7)';
-                for (let y = 0; y < rows; y++)
-                    for (let x = 0; x < cols; x++)
-                        if (grid[y][x]) ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
-            }
-            function loop(ts) {
-                if (ts - lastTick >= TICK_MS) { updateGrid(); lastTick = ts; }
-                drawGrid();
-                animationId = requestAnimationFrame(loop);
-            }
-            function startLife() {
-                if (animationId) return;
-                resizeCanvas(); randomizeGrid();
-                lastTick = performance.now();
-                animationId = requestAnimationFrame(loop);
-            }
-            hero.addEventListener('mousemove', (e) => {
-                const rect = hero.getBoundingClientRect();
-                mouseX = e.clientX - rect.left;
-                mouseY = e.clientY - rect.top;
-            });
-            hero.addEventListener('mouseleave', () => { mouseX = -1; mouseY = -1; });
-            window.addEventListener('resize', () => { resizeCanvas(); randomizeGrid(); });
-            window.addEventListener('load', startLife);
-        })();
-
         /* Светящаяся сетка за курсором */
         (function() {
             const sections = Array.from(document.querySelectorAll('section:not(.hero)'));
@@ -1089,92 +898,6 @@
                 requestAnimationFrame(tick);
             }
             requestAnimationFrame(tick);
-        })();
-
-        /* Логика красивого прелоадера с процентами и поддержкой языков */
-        (function() {
-            const activeLang = document.documentElement.lang || 'en';
-            const messages = i18n[activeLang]['loading.messages'];
-            const titleText = i18n[activeLang]['loading.title'];
-            
-            // Устанавливаем заголовок и первую фразу
-            document.getElementById('preloader-title').textContent = titleText;
-            const msgElement = document.getElementById('preloader-message');
-            msgElement.textContent = messages[0];
-
-            let msgIndex = 0;
-            const preloader = document.getElementById('preloader');
-            const percentElement = document.getElementById('loader-percentage');
-            const circle = document.querySelector('.progress-ring__circle');
-            const radius = circle.r.baseVal.value;
-            const circumference = 2 * Math.PI * radius;
-
-            circle.style.strokeDasharray = `${circumference} ${circumference}`;
-            circle.style.strokeDashoffset = circumference;
-
-            let progress = 0;
-            let targetProgress = 0;
-            let isLoaded = false;
-
-            const msgInterval = setInterval(() => {
-                msgElement.style.opacity = 0;
-                setTimeout(() => {
-                    msgIndex = (msgIndex + 1) % messages.length;
-                    msgElement.textContent = messages[msgIndex];
-                    msgElement.style.opacity = 1;
-                }, 400);
-            }, 3000);
-
-            function setProgress(percent) {
-                const offset = circumference - (percent / 100) * circumference;
-                circle.style.strokeDashoffset = offset;
-                percentElement.textContent = Math.floor(percent) + '%';
-            }
-
-            function simulateLoading() {
-                if (isLoaded) return;
-                // Симулируем загрузку, замедляясь ближе к 90%
-                if (targetProgress < 90) {
-                    targetProgress += Math.random() * 1.5;
-                    setProgress(targetProgress);
-                    setTimeout(simulateLoading, Math.random() * 100 + 50);
-                } else if (targetProgress < 99) {
-                    targetProgress += 0.2;
-                    setProgress(targetProgress);
-                    setTimeout(simulateLoading, 200);
-                }
-            }
-
-            simulateLoading();
-
-            function hidePreloader() {
-                isLoaded = true;
-                clearInterval(msgInterval);
-                
-                // Плавно добиваем до 100%
-                let finishInterval = setInterval(() => {
-                    progress += 2;
-                    if (progress >= 100) {
-                        progress = 100;
-                        setProgress(100);
-                        clearInterval(finishInterval);
-                        
-                        setTimeout(() => {
-                            preloader.classList.add('hidden');
-                            setTimeout(() => { preloader.style.display = 'none'; }, 600);
-                        }, 400);
-                    } else {
-                        setProgress(progress);
-                    }
-                }, 20);
-            }
-
-            window.addEventListener('load', hidePreloader);
-            
-            // Страховка: если через 15 секунд сайт не загрузился, всё равно убираем экран
-            setTimeout(() => {
-                if (!isLoaded) hidePreloader();
-            }, 15000);
         })();
     </script>
 </body>
