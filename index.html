@@ -244,6 +244,9 @@
             transition: border-color var(--transition), background var(--transition);
             overflow: hidden;
         }
+        .mod-logo.square {
+            border-radius: 12px;
+        }
         .mod-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .card:hover .mod-logo { border-color: var(--accent); background: rgba(102, 204, 255, 0.08); }
 
@@ -512,7 +515,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="mod-logo">
+                    <div class="mod-logo square">
                         <img src="https://cdn.modrinth.com/data/4Dr56D21/a399741859eff08e13bfd63eaa489830b39068db_96.webp" alt="Displadium" loading="lazy">
                     </div>
                     <h3 data-i18n="mod.displadium.title">Displadium</h3>
@@ -536,7 +539,9 @@
                 </div>
 
                 <div class="card">
-                    <div class="mod-logo" style="font-size: 1.8rem;">📚</div>
+                    <div class="mod-logo square">
+                        <img src="physicalist.png" alt="Physicalist Library" loading="lazy">
+                    </div>
                     <h3 data-i18n="mod.physicalist.title">Physicalist Library</h3>
                     <p data-i18n="mod.physicalist.desc">Библиотека / API для работы с физическими структурами. Превращает обычные NBT-шаблоны в подвижные физические объекты (sub-level) мода Sable, давая им собственную физику и возможность перемещения — как кораблям в Create: Aeronautics.</p>
                     <div class="card-tags">
